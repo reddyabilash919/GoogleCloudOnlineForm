@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main role="main" class="container">
+    <div class="row">
+
+        <div class="col-md-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="content-section">
+        
+                <form method="POST" action="/user">
+        
+                    {{ form.hidden_tag() }}
+                    <legend class="border-bottom mb-4">Update Password</legend>
+                    <div class="form-group">
+                        {{ form.old_password.label(class="form-control-label") }}
+                        {{ form.old_password(class="form-control form-control-lg is-invalid") }}
+        
+                    </div>
+                    <div class="form-group">
+                        {{ form.new_password.label(class="form-control-label") }}
+        
+                        {{ form.new_password(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-outline-primary") }}
+                    </div>
+                </form>
+        
+            </div>
+        </div>
+        <div class="col-md-6">
+
+
+            {% for post in posts %}
+
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <img  src="{{post.image}}">
+                        <a class="mr-2" href="#">{{ post.user_name }}</a>
+                        <small class="text-muted">{{ post.date}}</small>
+                    </div>
+                    <h2><a class="article-title" href="{{url_for('post',postId=post['post_id'])}}">{{ post.subject
+                            }}</a></h2>
+                    <p class="article-content">{{ post.message }}</p>
+
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                        href="{{url_for('post',postId=post['post_id'])}}">Edit</a>
+                </div>
+
+        </div>
+    </div>
+    </article>
+
+    {% endfor %}
+
+    </div>
+    
+    </div>
+</main>
+
+
+{% endblock content %}
